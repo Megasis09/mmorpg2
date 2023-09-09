@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Your Responses</h2>
+  {% if responses %}
+    {% for response in responses %}
+      <h3>{{ response.ad.title }}</h3>
+      <ul>
+        {% for r in response.responses %}
+          <li>{{ r.text }}, at {{ r.created_at }}</li>
+        {% endfor %}
+      </ul>
+    {% endfor %}
+  {% else %}
+    <p>You don't have any responses</p>
+  {% endif %}
+{% endblock %}

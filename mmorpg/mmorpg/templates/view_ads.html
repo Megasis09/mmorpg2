@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>View Ads</h2>
+  <ul>
+    {% for ad in ads %}
+      <li><a href="{% url 'view_ad' ad_id=ad.id %}">{{ ad.title }}</a></li>
+    {% endfor %}
+  </ul>
+  {% if user.is_authenticated %}
+    <a href="{% url 'create_ad' %}">Create Ad</a>
+  {% endif %}
+{% endblock %}

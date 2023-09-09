@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ ad.title }}</h2>
+  <div>{{ ad.text|safe }}</div>
+  {% if ad.image %}
+    <img src="{{ ad.image.url }}" width="200">
+  {% endif %}
+  <h3>Responses:</h3>
+  {% if ad.adresponse_set.all %}
+    <ul>
+      {% for response in ad.adresponse_set.all %}
+        <li>{{ response.text }}, by {{ response.user.username }}, at {{ response.created_at }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No responses yet</p>
+  {% endif %}
+  {% if user.is_authenticated and user != ad.created_by %}
+    <h3>Respond to this ad</h3>
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Submit">
+    </form>
+  {% endif %}
+  {% if request.user == ad.created_by %}
+    <a href="{% url 'edit_ad' ad_id=ad.id %}">Edit ad</a>
+  {% endif %}
+{% endblock %}
